@@ -31,6 +31,15 @@ body {
     text-wrap: balance;
   }
 } */
+.content-dashboard {
+  @apply bg-[#F4F7FF] dark:bg-black transition-all duration-300;
+}
+.content-icons {
+  @apply text-[#4218FD] dark:text-white transition-all duration-300;
+}
+.content-btn {
+  @apply bg-white hover:bg-[#4218FD] dark:bg-black dark:hover:bg-[#4218FD] transition-all duration-300;
+}
 
 html, body {
   height: 100%;

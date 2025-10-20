@@ -11,7 +11,7 @@ export default function DashboardLayout({
             <Navbar></Navbar>
           </div>
         </div>
-        <div style={{width: 'calc(100% - 200px)'}}>
+        <div className="content-dashboard" style={{width: 'calc(100% - 200px)'}}>
           <div className="flex flex-col">
             <div className="text-sm">
               {children}

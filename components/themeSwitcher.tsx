@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import {useTheme} from "next-themes";
 
-import {Sun, Moon} from "lucide-react";
+import {Sun, Moon, ToggleLeft, ToggleRight} from "lucide-react";
 
 export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false)
@@ -19,9 +19,11 @@ export function ThemeSwitcher() {
 
   return (
     <div>
-      The current theme is: {theme}
-      <button onClick={() => setTheme('light')}><Sun /></button>
-      <button onClick={() => setTheme('dark')}><Moon /></button>
+      {theme === 'light' ? (
+        <div className="flex flex-row items-center"><button onClick={() => setTheme('dark')} className="mr-1"><ToggleLeft /></button><Moon size={16} /></div>
+      ) : (
+        <div className="flex flex-row items-center"><button onClick={() => setTheme('light')} className="mr-1"><ToggleRight /></button><Sun size={16} /></div>
+      )}
     </div>
   )
 };

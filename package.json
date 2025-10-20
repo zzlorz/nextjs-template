@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.12",
-    "@heroui/react": "^2.8.5",
+    "@internationalized/date": "^3.10.0",
+    "@nextui-org/react": "^2.6.11",
     "framer-motion": "^11.0.28",
-    "lucide-react": "^0.367.0",
+    "lucide-react": "^0.546.0",
     "next": "14.1.4",
     "next-themes": "^0.3.0",
     "react": "^18",
