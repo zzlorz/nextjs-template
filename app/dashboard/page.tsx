@@ -2,11 +2,13 @@
 import React from "react";
 import {Table,TableHeader, TableColumn, TableBody, TableRow, TableCell, Calendar} from '@nextui-org/react'
 import { Sun, CircleUser } from 'lucide-react';
-import {today, getLocalTimeZone, isWeekend} from "@internationalized/date";
+import {CalendarDate, today, getLocalTimeZone, isWeekend} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
 
 function Page() {
-  let [date, setDate] = React.useState(today(getLocalTimeZone()));
+  const [date, setDate] = React.useState<CalendarDate>(
+    today(getLocalTimeZone())
+  );
   let {locale} = useLocale();
   let isInvalid = isWeekend(date, locale);
   
@@ -65,13 +67,13 @@ function Page() {
         <div className="flex justify-center">
           <div className="">
             <Calendar 
-              aria-label="Date (Invalid on weekends)"
-              errorMessage={isInvalid ? "We are closed on weekends" : undefined}
-              isInvalid={isInvalid}
-              value={date}
-              onChange={setDate}
-            >
-            </Calendar>
+                aria-label="Date (Invalid on weekends)"
+                errorMessage={isInvalid ? "We are closed on weekends" : undefined}
+                isInvalid={isInvalid}
+                value={date as any}
+                onChange={(d: any) => setDate(d as CalendarDate)}
+              >
+              </Calendar>
           </div>
         </div>
       </div>
