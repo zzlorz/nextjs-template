@@ -1,14 +1,35 @@
 "use client";
 import React from "react";
-import {Table,TableHeader, TableColumn, TableBody, TableRow, TableCell, Calendar} from '@nextui-org/react'
-import { ScrollText } from 'lucide-react';
-import {today, getLocalTimeZone, isWeekend} from "@internationalized/date";
-import {useLocale} from "@react-aria/i18n";
+import {Table,TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, useDisclosure} from '@nextui-org/react'
+import { ScrollText, Eye, PencilLine, Trash2, ListPlus, TextSearch} from 'lucide-react';
+import supabase from "../../../utils/supabaseRequest";
+import AddModal from "../../../components/addModal";
+
 
 function Page() {
-  let [date, setDate] = React.useState(today(getLocalTimeZone()));
-  let {locale} = useLocale();
-  let isInvalid = isWeekend(date, locale);
+  const [youlajiBlogTest, setYoulajiBlogTest] = React.useState<any[] | null>(null);
+  const [sbError, setSbError] = React.useState<any | null>(null);
+  const [selectedColor, setSelectedColor] = React.useState("default");
+  const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  
+  // setSelectedColor("primary");
+  React.useEffect(() => {
+    let mounted = true;
+    supabase
+      .from('youlaji_blog_test')
+      .select('*')
+      .then(({ data, error }) => {
+        if (!mounted) return;
+        if (error) {
+          setSbError(error);
+        } else {
+          setYoulajiBlogTest(data ?? []);
+          setSelectedColor("primary");
+        }
+      });
+    return () => { mounted = false; };
+  }, []);
   
   return  <div>
     <div style={{padding: '20px'}} className='flex'>
@@ -21,35 +42,42 @@ function Page() {
             <div className="ml-4 flex flex-col font-medium justify-center dark:from-black dark:via-black text-base text-gray-400">主题列表</div>
           </div>
         </div>
+        <div className="flex flex-row justify-between gap-12 mb-4">
+          <Input placeholder="Search..." color={'primary'} startContent={
+            <TextSearch />
+          } />
+          <Button color="primary" onPress={onOpen}><ListPlus /></Button>
+        </div>
+        <AddModal modalOpen={isOpen} modalOnClose={onClose} />
         <div>
-          <Table aria-label="Example static collection table">
+          <Table
+            aria-label="Example static collection table"
+            color={selectedColor as any}
+            defaultSelectedKeys={[]}
+            selectionMode="single">
             <TableHeader>
-              <TableColumn>NAME</TableColumn>
-              <TableColumn>ROLE</TableColumn>
-              <TableColumn>STATUS</TableColumn>
+              <TableColumn>名称</TableColumn>
+              <TableColumn>日期</TableColumn>
+              <TableColumn>主题位置详情</TableColumn>
+              <TableColumn className="flex justify-center items-center">操作</TableColumn>
             </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>Tony Reichert</TableCell>
-                <TableCell>CEO</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>Zoey Lang</TableCell>
-                <TableCell>Technical Lead</TableCell>
-                <TableCell>Paused</TableCell>
-              </TableRow>
-              <TableRow key="3">
-                <TableCell>Jane Fisher</TableCell>
-                <TableCell>Senior Developer</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="4">
-                <TableCell>William Howard</TableCell>
-                <TableCell>Community Manager</TableCell>
-                <TableCell>Vacation</TableCell>
-              </TableRow>
-            </TableBody>
+            <TableBody emptyContent={"No rows to display."} items={youlajiBlogTest ?? []}>
+              {
+                (item) => (
+                  <TableRow key={item.theme_id}>
+                    <TableCell>{item.theme_title}</TableCell>
+                    <TableCell>{item.theme_date}</TableCell>
+                    <TableCell>{item.theme_position_detail}</TableCell>
+                    <TableCell>
+                      <span className="flex flex-row justify-center gap-2">
+                      <Eye className="cursor-pointer text-gray-500" size={16} />
+                      <PencilLine className="cursor-pointer text-gray-500" size={16} />
+                      <Trash2 color="red" className="cursor-pointer" size={16}/>
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
           </Table>
         </div>
       </div>

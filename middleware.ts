@@ -40,5 +40,5 @@ export function middleware(request: NextRequest) {
 
 // 配置需要拦截的路由（* 表示所有路由，可按需缩小范围）
 export const config = {
-  matcher: ['/dashboard/:path*', '/about', '/login'],
+  matcher: ['/dashboard/:path*', '/login'],
 };

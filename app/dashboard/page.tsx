@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import {Table,TableHeader, TableColumn, TableBody, TableRow, TableCell, Calendar} from '@nextui-org/react'
-import { Sun, CircleUser } from 'lucide-react';
+import {Calendar} from '@nextui-org/react'
+import { Sun, CircleUser,} from 'lucide-react';
 import {CalendarDate, today, getLocalTimeZone, isWeekend} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
 
@@ -11,6 +11,7 @@ function Page() {
   );
   let {locale} = useLocale();
   let isInvalid = isWeekend(date, locale);
+
   
   return  <div>
     <div style={{padding: '20px'}} className='flex'>
@@ -31,35 +32,6 @@ function Page() {
             <div className="flex flex-1"><div className="bg-white dark:bg-[#18181B] rounded-large shadow-small w-full p-4">2</div></div>
             <div className="flex flex-1"><div className="bg-white dark:bg-[#18181B] rounded-large shadow-small w-full p-4">2</div></div>
           </div>
-          <Table aria-label="Example static collection table">
-            <TableHeader>
-              <TableColumn>NAME</TableColumn>
-              <TableColumn>ROLE</TableColumn>
-              <TableColumn>STATUS</TableColumn>
-            </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>Tony Reichert</TableCell>
-                <TableCell>CEO</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>Zoey Lang</TableCell>
-                <TableCell>Technical Lead</TableCell>
-                <TableCell>Paused</TableCell>
-              </TableRow>
-              <TableRow key="3">
-                <TableCell>Jane Fisher</TableCell>
-                <TableCell>Senior Developer</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="4">
-                <TableCell>William Howard</TableCell>
-                <TableCell>Community Manager</TableCell>
-                <TableCell>Vacation</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
         </div>
       </div>
       <div className='w-72'>
