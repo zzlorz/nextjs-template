@@ -12,6 +12,7 @@ function Page() {
   const [selectedColor, setSelectedColor] = React.useState("default");
   const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
   const {isOpen, onOpen, onClose} = useDisclosure();
+  const [item, setItem] = React.useState<any | null>(null);
   
   // setSelectedColor("primary");
   React.useEffect(() => {
@@ -30,7 +31,15 @@ function Page() {
       });
     return () => { mounted = false; };
   }, []);
-  
+  const toEdit = (item: any) => {
+    console.log("to edit item:", item);
+    setItem(item);
+    onOpen();
+  }
+  const handleModalOpen = () => {
+    setItem(null);
+    onOpen();
+  }
   return  <div>
     <div style={{padding: '20px'}} className='flex'>
       <div className='flex-1 mr-4'>
@@ -46,9 +55,9 @@ function Page() {
           <Input placeholder="Search..." color={'primary'} startContent={
             <TextSearch />
           } />
-          <Button color="primary" onPress={onOpen}><ListPlus /></Button>
+          <Button color="primary" onPress={handleModalOpen}><ListPlus /></Button>
         </div>
-        <AddModal modalOpen={isOpen} modalOnClose={onClose} />
+        <AddModal modalOpen={isOpen} modalOnClose={onClose} modalData={item} />
         <div>
           <Table
             aria-label="Example static collection table"
@@ -70,9 +79,9 @@ function Page() {
                     <TableCell>{item.theme_position_detail}</TableCell>
                     <TableCell>
                       <span className="flex flex-row justify-center gap-2">
-                      <Eye className="cursor-pointer text-gray-500" size={16} />
-                      <PencilLine className="cursor-pointer text-gray-500" size={16} />
-                      <Trash2 color="red" className="cursor-pointer" size={16}/>
+                        <Eye className="cursor-pointer text-gray-500" size={16} />
+                        <PencilLine className="cursor-pointer text-gray-500" onClick={() => {toEdit(item)}} size={16} />
+                        <Trash2 color="red" className="cursor-pointer" size={16}/>
                       </span>
                     </TableCell>
                   </TableRow>
