@@ -67,7 +67,7 @@ function Page() {
             <TableHeader>
               <TableColumn>名称</TableColumn>
               <TableColumn>日期</TableColumn>
-              <TableColumn>主题详情</TableColumn>
+              <TableColumn>主题详情1</TableColumn>
               <TableColumn className="flex justify-center items-center">操作</TableColumn>
             </TableHeader>
             <TableBody emptyContent={"No rows to display."} items={youlajiBlogTest ?? []}>
