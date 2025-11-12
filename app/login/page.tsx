@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Sun, Moon, Lock, Mail, Eye, EyeOff, AudioWaveform } from "lucide-react";
 import { useRouter } from "next/navigation";
+import supabase from "@/utils/supabaseRequest";
 
 export default function LoginPage() {
   // 主题切换逻辑
@@ -97,7 +98,17 @@ export default function LoginPage() {
       console.log("登录信息:", formData);
       
       // 模拟API延迟
-      await new Promise(resolve => setTimeout(resolve, 1000));
+       const { data, error } = await supabase
+            .from('user')
+            .select('*')
+            .eq('name', formData.email)
+            .eq('pw', '123456789');
+            if (error) {
+              throw '登录错误'
+            } else {
+      
+            }
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       
       // 登录成功：存储token并跳转首页
       localStorage.setItem("token", "mock-jwt-token");
